@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>注文履歴</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f4f4f4; }
+    </style>
+</head>
+<body>
+
+<h2>注文履歴</h2>
+<a href="{% url 'product_list' %}">商品リストに戻る</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>注文日時</th>
+            <th>商品名</th>
+            <th>数量</th>
+            <th>依頼者</th>
+            <th>ステータス</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_date|date:"Y/m/d H:i" }}</td>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.orderer_name }}</td>
+            <td>受付済</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">履歴はありません</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>依頼内容の入力</title>
+    <style>
+        body { font-family: sans-serif; background: #f9f9f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .product-info { background: #e9ecef; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>依頼内容の入力</h2>
+    
+    <div class="product-info">
+        <h3>商品: {{ product.name }}</h3>
+        <p>仕様: {{ product.spec }}</p>
+        </div>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="confirm">入力内容を確認する</button>
+    </form>
+    <div style="text-align:center; margin-top:15px;">
+        <a href="{% url 'product_list' %}">キャンセルして戻る</a>
+    </div>
+</div>
+
+</body>
+</html>

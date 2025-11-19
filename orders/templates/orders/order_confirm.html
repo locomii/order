@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>確認画面</title>
+    <style>
+        body { font-family: sans-serif; background: #f9f9f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .row { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; }
+        .label { width: 150px; font-weight: bold; }
+        button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; cursor: pointer; font-weight: bold; }
+        .back { background: #6c757d; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>この内容で送信しますか？</h2>
+
+    <div class="row"><div class="label">商品名</div><div>{{ product.name }}</div></div>
+    <div class="row"><div class="label">仕様</div><div>{{ product.spec }}</div></div>
+    <div class="row"><div class="label">依頼者</div><div>{{ form.cleaned_data.orderer_name }}</div></div>
+    <div class="row"><div class="label">数量</div><div>{{ form.cleaned_data.quantity }}</div></div>
+    <div class="row"><div class="label">納期</div><div>{{ form.cleaned_data.delivery_date }}</div></div>
+    <div class="row"><div class="label">変更</div><div>{% if form.cleaned_data.has_changes %}あり{% else %}なし{% endif %}</div></div>
+    <div class="row"><div class="label">備考</div><div>{{ form.cleaned_data.note|linebreaksbr }}</div></div>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}{{ field.as_hidden }}{% endfor %}
+        
+        <button type="button" class="back" onclick="history.back()">戻る</button>
+        <button type="submit" name="send">注文を確定する</button>
+    </form>
+</div>
+
+</body>
+</html>

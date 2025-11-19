@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品一覧</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        
+        /* 検索フォームのデザイン */
+        .search-bar { background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 10px; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-search { background: #007bff; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
+        .btn-reset { color: #666; text-decoration: none; font-size: 0.9em; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 180px; object-fit: cover; }
+        .card-body { padding: 15px; display: flex; flex-direction: column; justify-content: space-between; height: 150px; }
+        h3 { margin: 0 0 10px 0; font-size: 1.1em; }
+        .spec { color: #666; font-size: 0.9em; flex-grow: 1; }
+        .btn { display: block; width: 100%; padding: 10px; text-align: center; background: #007bff; color: white; text-decoration: none; border-radius: 4px; box-sizing: border-box; margin-top: 10px;}
+        .btn-history { background: #6c757d; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>商品一覧</h2> <div>
+        <a href="{% url 'order_history' %}" class="btn-history">注文履歴を見る</a>
+        <a href="{% url 'logout' %}" style="margin-left:10px;">ログアウト</a>
+    </div>
+</div>
+
+<form method="get" class="search-bar">
+    <select name="store">
+        <option value="">全ての店舗</option>
+        {% for store in stores %}
+            <option value="{{ store.id }}">{{ store.name }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="genre">
+        <option value="">全てのジャンル</option>
+        {% for genre in genres %}
+            <option value="{{ genre.id }}">{{ genre.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn-search">検索</button>
+    <a href="{% url 'product_list' %}" class="btn-reset">リセット</a>
+</form>
+
+<div class="product-grid">
+    {% for product in products %}
+    <div class="card">
+        {% if product.image %}
+            <img src="{{ product.image.url }}">
+        {% else %}
+            <div style="height:180px; background:#eee; display:flex; align-items:center; justify-content:center; color:#999;">No Image</div>
+        {% endif %}
+        <div class="card-body">
+            <div>
+                <h3>{{ product.name }}</h3>
+                <p class="spec">{{ product.spec }}</p>
+            </div>
+            <a href="{% url 'create_order' product.id %}" class="btn">この商品を依頼する</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>条件に一致する商品が見つかりませんでした。</p>
+    {% endfor %}
+</div>
+
+</body>
+</html>
