@@ -7,13 +7,21 @@ from django.contrib.auth.models import User
 class Store(models.Model):
     name = models.CharField("店舗名", max_length=100)
     def __str__(self): return self.name
+    
+    class Meta:
+        verbose_name = "店舗"
+        verbose_name_plural = "店舗"
 
 # ジャンルマスター
 class Genre(models.Model):
     name = models.CharField("ジャンル名", max_length=100)
     def __str__(self): return self.name
 
-# 【新規】商品データ（あなたが登録するリスト）
+    class Meta:
+        verbose_name = "ジャンル"
+        verbose_name_plural = "ジャンル"
+
+# 商品データ
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="顧客")
     store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True, verbose_name="店舗")
@@ -28,6 +36,10 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.user.username})"
+
+    class Meta:
+        verbose_name = "商品"
+        verbose_name_plural = "商品"
 
 # 注文履歴データ
 class Order(models.Model):
@@ -46,3 +58,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.order_date} - {self.product.name}"
+
+    class Meta:
+        verbose_name = "注文"
+        verbose_name_plural = "注文"

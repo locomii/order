@@ -1,6 +1,8 @@
-from django.apps import AppConfig
+# orders/apps.py
 
+from django.apps import AppConfig
 
 class OrdersConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'orders'
+    verbose_name = '発注管理'  # これを追加
